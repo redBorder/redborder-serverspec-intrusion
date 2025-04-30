@@ -5,7 +5,7 @@ task :default => :spec
 
 task :spec => "spec:all"
 namespace :spec do
-  host = ENV['TARGET_HOST'] || '10.0.209.30'
+  host = ENV['TARGET_HOST'] || '10.0.209.31'
 
   task all: %i[services configuration users]
 
