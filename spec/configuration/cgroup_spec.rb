@@ -10,7 +10,6 @@ describe file('/sys/fs/cgroup/redborder.slice') do
 end
 describe 'Check cgroups' do
   cgroups.each do |cgroup|
-    next if cgroup.include?('snortd')
 
     describe file("#{cgroup}/cgroup.controllers") do
       it { should exist }
