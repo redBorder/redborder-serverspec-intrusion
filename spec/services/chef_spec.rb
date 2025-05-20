@@ -32,3 +32,15 @@ describe "Checking service_status service for #{service}..." do
     it { should be_file }
   end
 end
+
+describe 'Checking if should be registered to chef' do
+  hostname = command('hostname').stdout.strip
+  describe file('/etc/hosts') do
+    before do
+      skip('Node is not registered yet, skipping...') unless hostname != 'localhost'
+    end
+    remote_ip_regex = /^(?!127\.0\.0\.1)(?!::1).*/
+    its(:content) { should match(/#{remote_ip_regex}\s+erchef\.service\s*/) }
+    its(:content) { should match(/#{remote_ip_regex}\s+erchef\.redborder\.cluster\s*/) }
+  end
+end
