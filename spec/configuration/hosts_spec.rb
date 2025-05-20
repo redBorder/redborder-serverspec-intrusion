@@ -23,15 +23,13 @@ describe 'Default values of /etc/hosts' do
   end
 end
 
-# THIS TEST ONLY PASSES IF REGISTERED
 describe 'Self awareness of the hostname' do
   hostname = command('hostname').stdout.strip
   describe file('/etc/hosts') do
-  # Check hostname entry
-    # its(:content) { should match(/^127\.0\.0\.1\s+#{hostname}\s+/) }
     before do
       skip('Node is not registered yet, skipping...') unless hostname != 'localhost'
     end
-    its(:content) { should match(/^(?!127\.0\.0\.1)(?!::1).*\s+#{hostname}\.node\s*/) }
+    remote_ip_regex = /^(?!127\.0\.0\.1)(?!::1).*/
+    its(:content) { should match(/#{remote_ip_regex}\s+#{hostname}\.node\s*/) }
   end
 end
