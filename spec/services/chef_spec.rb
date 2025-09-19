@@ -41,6 +41,6 @@ describe 'Checking if should be registered to chef' do
     end
     remote_ip_regex = /^(?!127\.0\.0\.1)(?!::1).*/
     its(:content) { should match(/#{remote_ip_regex}\s+erchef\.service\s*/) }
-    its(:content) { should match(/#{remote_ip_regex}\s+erchef\.redborder\.cluster\s*/) }
+    its(:content) { should match(/#{remote_ip_regex}\s+erchef\.service\.redborder\.cluster\s*/) }
   end
 end
