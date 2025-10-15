@@ -33,3 +33,32 @@ describe 'Self awareness of the hostname' do
     its(:content) { should match(/#{remote_ip_regex}\s+#{hostname}\.node\s*/) }
   end
 end
+
+describe 'Services defined in the registered manager' do
+  describe file('/etc/hosts') do
+    before do
+      skip 'Cdomain not defined in /etc/redborder/cdomain' unless file('/etc/redborder/cdomain').exists?
+    end
+    it 'Checks DNS resolution from right domain' do
+      hosts_content = subject.content
+      # Find first no localhost line
+      line = hosts_content.lines.find do |l|
+        l_ip = l.split.first
+        l_ip && !['127.0.0.1', '::1'].include?(l_ip) && !l.strip.start_with?('#')
+      end
+      skip 'No line with a dynamic IP found. Maybe the IPS is not registered yet.' unless line
+
+      cdomain = file('/etc/redborder/cdomain').content.strip
+
+      [
+        "http2k.service.#{cdomain}",
+        "erchef.service.#{cdomain}",
+        "s3.service.#{cdomain}",
+        "f2k.service.#{cdomain}",
+        "kafka.service.#{cdomain}"
+      ].each do |name|
+        expect(line).to include(name)
+      end
+    end
+  end
+end
