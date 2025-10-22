@@ -51,11 +51,11 @@ describe 'Services defined in the registered manager' do
       cdomain = file('/etc/redborder/cdomain').content.strip
 
       [
-        "http2k.service.#{cdomain}",
-        "erchef.service.#{cdomain}",
-        "s3.service.#{cdomain}",
-        "f2k.service.#{cdomain}",
-        "kafka.service.#{cdomain}"
+        "http2k.#{cdomain}",
+        "erchef.#{cdomain}",
+        "s3.#{cdomain}",
+        "f2k.#{cdomain}",
+        "kafka.#{cdomain}"
       ].each do |name|
         expect(line).to include(name)
       end
