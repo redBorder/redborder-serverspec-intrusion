@@ -4,8 +4,9 @@ require 'spec_helper'
 require 'json'
 set :os, family: 'redhat', release: '9', arch: 'x86_64'
 
+# Cinc (Apache 2.0 build of Chef) client
 packages = %w[
-  redborder-chef-client
+  redborder-cinc-client cinc-workstation
 ]
 
 service = 'chef-client'
